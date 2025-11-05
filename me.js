@@ -88,4 +88,5 @@ let people = {
   },
 }
 
+people.add('Elchunen Freund')
 people.rollCall()
