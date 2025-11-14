@@ -60,54 +60,66 @@ class Vehicles {
   }
 
   accelerate() {
-    console.log(`the ${this.color} vehicle has accelerated`)
+    console.log(`The ${this.color} vehicle has accelerated`);
   }
 
   decelerate() {
-    console.log(`the ${this.color} vehicle has decelerated`)
+    console.log(`The ${this.color} vehicle has decelerated`);
+  }
+
+  info() {
+    console.log(`The ${this.color} vehicle weighs ${this.weight}`);
   }
 }
 
 class Car extends Vehicles {
   constructor(color, weight, plate) {
-  super(color, weight);
-  this.plate = plate;
+    super(color, weight);
+    this.plate = plate;
   }
 
   honk() {
-    console.log('Honk Honk')
+    console.log('Honk Honk');
   }
 
   info() {
-    console.log(`The ${this.color} car weighs ${this.weight} and has a plate number of ${this.plate}`)
+    super.info();
+    console.log(`Plate: ${this.plate}`);
   }
 }
 
 class Boat extends Vehicles {
-  constructor(color, weight) {
-    super(color, weight)
-  }
-
   dropAnchor() {
-    console.log(`Anchor has droped`)
+    console.log('Anchor has dropped');
   }
 
   info() {
-    console.log(`The ${this.color} car weighs ${this.weight}`)
+    console.log(`The ${this.color} boat weighs ${this.weight}`);
   }
 }
 
 class Plane extends Vehicles {
   constructor(color, weight, airline) {
-    super(color, weight)
+    super(color, weight);
     this.airline = airline;
   }
 
   info() {
-    console.log(`The ${this.color} plane weighs ${this.weight} and belongs to ${this.airline}`)
+    console.log(`The ${this.color} plane weighs ${this.weight} and belongs to ${this.airline}`);
   }
 }
 
+const car = new Car('red', 1400, 'ABC-123');
+car.accelerate();
+car.honk();
+car.info();
 
+const boat = new Boat('blue', 2000);
+boat.dropAnchor();
+boat.info();
 
+const plane = new Plane('white', 8000, 'SkyWays');
+plane.info();
 
+console.log(car instanceof Car, car instanceof Vehicles);   // true true
+console.log(boat instanceof Boat, boat instanceof Vehicles); // true true
