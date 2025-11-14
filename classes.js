@@ -28,7 +28,6 @@ class Rectangle {
 }
 
 const myRectangle = new Rectangle(10, 5);
-console.log(myRectangle.area());
 
 class Square extends Rectangle {
   constructor(side) {
@@ -109,17 +108,90 @@ class Plane extends Vehicles {
   }
 }
 
-const car = new Car('red', 1400, 'ABC-123');
-car.accelerate();
-car.honk();
-car.info();
+let database = {
+  getStudent(name) {
+    return 4201576;
+  }
+};
 
-const boat = new Boat('blue', 2000);
-boat.dropAnchor();
-boat.info();
+class Student {
+  #firstName;
+  #lastName;
+  #track;
+  static counter = 0
 
-const plane = new Plane('white', 8000, 'SkyWays');
-plane.info();
+  static showCounter() {
+    console.log(`We have created ${Student.counter} students!`)
+  }
+  constructor(firstName, lastName, track) {
 
-console.log(car instanceof Car, car instanceof Vehicles);   // true true
-console.log(boat instanceof Boat, boat instanceof Vehicles); // true true
+    this.#firstName = firstName;
+    this.#lastName = lastName;
+    this.#track = track;
+    Student.counter += 1
+  }
+
+  get name() {
+    return [this.firstName, this.lastName];
+  }
+
+  get firstName() {
+    return this.#firstName
+  }
+
+  get lastName() {
+    return this.#lastName
+  }
+
+  get track() {
+    return this.#track
+  }
+
+  set track(newTrack) {
+    switch (newTrack) {
+      case 'javaScript':
+      case 'Python':
+      case 'Ruby':
+        this.#track = newTrack
+        break;
+      default:
+        throw new Error(`Invalid track: ${newTrack}`)
+    }
+  }
+}
+
+class Person {
+  #name;
+  #age;
+
+  constructor(name, age) {
+    this.#name = name;
+    this.age = age; // Call the setter to validate data
+  }
+
+  set age(age) {
+    if (typeof(age) === 'number' && age > 0) {
+      this.#age = age;
+    } else {
+      throw new RangeError('Age must be positive');
+    }
+  }
+
+  showAge() {
+    console.log(this.#age);
+  }
+}
+
+let person = new Person('John', 30);
+person.showAge(); // 30
+person.age = 31;
+person.showAge(); // 31
+
+try {
+  person.age = -5;
+  // The following line will not run
+  person.showAge();
+} catch (e) {
+  // The following line will run
+  console.log('RangeError: Age must be positive');
+}
