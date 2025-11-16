@@ -13,23 +13,23 @@ class Cat {
   }
 }
 
-// class Rectangle {
-//   constructor(hight, width) {
-//     this.hight = hight;
-//     this.width = width;
-//   }
+class Rectangle {
+  constructor(hight, width) {
+    this.hight = hight;
+    this.width = width;
+  }
 
-//   area() {
-//     return this.hight * this.width;
-//   }
-// }
+  area() {
+    return this.hight * this.width;
+  }
+}
 
-// class Square extends Rectangle {
-//   constructor(side) {
-//     super(side, side);
-//     this.side = side
-//   }
-// }
+class Square extends Rectangle {
+  constructor(side) {
+    super(side, side);
+    this.side = side
+  }
+}
 
 class Smartphone {
   constructor(brand, model, releaseYear) {
@@ -289,8 +289,97 @@ class MathUtils {
   }
 }
 
-console.log(MathUtils.add(5, 3));       // 8
-console.log(MathUtils.subtract(10, 4)); // 6
-console.log(MathUtils.multiply(6, 7));  // 42
-console.log(MathUtils.divide(20, 5));   // 4
-console.log(MathUtils.divide(10, 0));   // RangeError: Division by zero
+function Smartphone(brand, model, year) {
+  this.brand = brand;
+  this.model = model;
+  this.year = year;
+}
+
+Smartphone.prototype.getBrand = function() {
+  return this.brand;
+};
+
+Smartphone.prototype.getModel = function() {
+  return this.model;
+};
+
+Smartphone.prototype.getYear = function() {
+  return this.year;
+};
+
+Smartphone.prototype.batteryLevel = function() {
+  console.log('The battery level is at 75%');
+};
+
+Smartphone.prototype.info = function() {
+  console.log(`This is a ${this.year} ${this.brand} ${this.model}`);
+};
+
+function Vehicles(color, weight) {
+  this.color = color;
+  this.weight = weight;
+}
+
+Vehicles.prototype.accelerate = function() {
+  console.log('Vehicle is accelerating!');
+}
+
+Vehicles.prototype.decelerate = function() {
+  console.log('Vehicle is decelerateing!')
+}
+
+Vehicles.prototype.info = function() {
+  console.log(`This is a ${this.color} Vehicle that weighs ${this.weight}!`)
+}
+
+function Car(color, weight, plate) {
+  Vehicles.call(this, color, weight)
+  this.plate = plate;
+}
+
+Car.prototype = Object.create(Vehicles.prototype);
+Car.prototype.constructor = Car;
+
+Car.prototype.honk = function() {
+  console.log('Honk Honk')
+}
+
+function Boat(color, weight) {
+  Vehicles.call(this, color, weight)
+}
+
+Boat.prototype = Object.create(Vehicles.prototype)
+Boat.prototype.constructor = Boat;
+
+Boat.prototype.dropAnchor = function() {
+  console.log('Anchor droped')
+}
+
+function Plane(color, weight, airline) {
+  Vehicles.call(this, color, weight);
+  this.airline = airline;
+}
+
+Plane.prototype = Object.create(Vehicles.prototype);
+Plane.prototype.constructor = Plane;
+
+Plane.prototype.takeOff = function() {
+  console.log('Taking off...')
+}
+
+Plane.prototype.land = function() {
+  console.log('Landing now')
+}
+
+let smartCar = new Car('Blue', 14000, 'HelloWrld')
+smartCar.accelerate();
+console.log(smartCar.plate)
+
+let pantoon = new Boat('Green', 23000);
+pantoon.dropAnchor();
+
+let citation = new Plane('White', 100000)
+citation.takeOff();
+citation.land()
+citation.info()
+
