@@ -13,28 +13,23 @@ class Cat {
   }
 }
 
-let cocoa = new Cat('Cocoa', 'black', 5);
-let leo = new Cat('Leo', 'orange', 3);
+// class Rectangle {
+//   constructor(hight, width) {
+//     this.hight = hight;
+//     this.width = width;
+//   }
 
-class Rectangle {
-  constructor(hight, width) {
-    this.hight = hight;
-    this.width = width;
-  }
+//   area() {
+//     return this.hight * this.width;
+//   }
+// }
 
-  area() {
-    return this.hight * this.width;
-  }
-}
-
-const myRectangle = new Rectangle(10, 5);
-
-class Square extends Rectangle {
-  constructor(side) {
-    super(side, side);
-    this.side = side
-  }
-}
+// class Square extends Rectangle {
+//   constructor(side) {
+//     super(side, side);
+//     this.side = side
+//   }
+// }
 
 class Smartphone {
   constructor(brand, model, releaseYear) {
@@ -182,16 +177,120 @@ class Person {
   }
 }
 
-let person = new Person('John', 30);
-person.showAge(); // 30
-person.age = 31;
-person.showAge(); // 31
+class Book {
+  #title;
+  #author;
+  #year;
 
-try {
-  person.age = -5;
-  // The following line will not run
-  person.showAge();
-} catch (e) {
-  // The following line will run
-  console.log('RangeError: Age must be positive');
+  constructor(title, author, year) {
+    this.#title = title;
+    this.#author = author;
+    this.year = year;
+  }
+
+  get title() {
+    return this.#title
+  }
+
+  get author() {
+    return this.#author
+  }
+
+  get year() {
+    return this.#year
+  }
+
+  set year(n) {
+    if (typeof(n) === 'number' && n >= 1900) {
+      this.#year = n
+    } else {
+      throw new RangeError('Invalid year')
+    }
+  }
 }
+
+class BankAccount {
+  #balance = 0;
+
+  #checkBalance() {
+    console.log(`Current balance: $${this.#balance}`);
+  }
+
+  deposit(n) {
+    this.#balance += n;
+    this.#checkBalance();
+  }
+
+  withdraw(n) {
+    if (typeof(n) === 'number' && this.#balance >= n) {
+      this.#balance -= n
+    } else {
+      throw new RangeError('Insufficient funds')
+    }
+  }
+}
+
+class Rectangle {
+  #width;
+  #height;
+
+  constructor(width, height) {
+    this.#height = height;
+    this.#width = width;
+  }
+
+  get width() {
+    return this.#width
+  }
+
+  get height() {
+    return this.#height
+  }
+
+  get area() {
+    return this.#height * this.#width;
+  }
+
+  set width(n) {
+    if (typeof(n) === 'number' && n > 0) {
+      this.#width = n
+    } else {
+      throw new RangeError('width must be positive')
+    }
+  }
+
+  set height(n) {
+    if (typeof(n) === 'number' && n > 0) {
+      this.#height = n
+    } else {
+      throw new RangeError('height must be positive')
+    }
+  }
+}
+
+class MathUtils {
+  static add(n1, n2) {
+    return n1 + n2
+  }
+
+  static subtract(n1, n2) {
+    return n1 - n2
+  }
+
+  static multiply(n1, n2) {
+    return n1 * n2
+  }
+
+  static divide(n1, n2) {
+    if (n2 === 0) {
+      throw new RangeError('Division by zero');
+    }
+    return n1 / n2;
+  }
+}
+
+console.log(MathUtils.add(5, 3));       // 8
+console.log(MathUtils.subtract(10, 4)); // 6
+console.log(MathUtils.multiply(6, 7));  // 42
+console.log(MathUtils.divide(20, 5));   // 4
+console.log(MathUtils.divide(10, 0));   // RangeError: Division by zero
