@@ -17,8 +17,15 @@ Triangle.prototype.getPerimeter = function() {
   return this.a + this.b + this.c;
 }
 
-let t = new Triangle(3, 4, 5);
-console.log(t.constructor);                 // Triangle(a, b, c)
-shape.isPrototypeOf(t);        // true
-t.getPerimeter();              // 12
-t.getType();                   // "triangle"
+function User(first, last) {
+  if (!(this instanceof User)) return new User(first, last)
+  this.name = `${first} ${last}`;
+}
+
+let name = 'Jane Doe';
+let user1 = new User('John', 'Doe');
+let user2 = User('John', 'Doe');
+
+console.log(name);         // => Jane Doe
+console.log(user1.name);   // => John Doe
+console.log(user2.name);   // => John Doe
