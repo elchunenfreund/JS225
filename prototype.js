@@ -60,7 +60,19 @@ let funcs = {
   },
 };
 
-let object = extend({}, foo, joe, funcs);
+function Circle(radius) {
+  this.radius = radius;
+}
 
-console.log(object.b.x);          // => 1
-object.sayHello();                // => Hello, Joe
+Circle.prototype.area = function() {
+  return Math.PI * this.radius * this.radius
+}
+
+let ninjaA = (function() {
+  function Ninja(){};
+  return new Ninja();
+})();
+
+// create a ninjaB object
+let ninjaB = Object.create(Object.getPrototypeOf(ninjaA))
+console.log(ninjaB.constructor === ninjaA.constructor);    // should log true
