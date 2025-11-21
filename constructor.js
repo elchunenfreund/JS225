@@ -1,24 +1,27 @@
 let shape = {
-  getType: function() {
-    return this.type
+  getType() {
+    return this.type;
   }
-}
+};
 
 function Triangle(a, b, c) {
-  this.type = 'triangle'
+  this.type = 'triangle';
   this.a = a;
   this.b = b;
   this.c = c;
 }
 
-Triangle.prototype = shape
-Triangle.prototype.constructor = Triangle;
+Triangle.prototype = shape;
 Triangle.prototype.getPerimeter = function() {
   return this.a + this.b + this.c;
 }
 
+Triangle.prototype.constructor = Triangle;
+
 function User(first, last) {
-  if (!(this instanceof User)) return new User(first, last)
+  if (!(this instanceof User)) {
+    return new User(first, last);
+  }
   this.name = `${first} ${last}`;
 }
 

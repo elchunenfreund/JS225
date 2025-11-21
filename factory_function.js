@@ -3,13 +3,13 @@ function createFruit(name, color) {
     name,
     color,
     isRipe() {
-    return `This ${this.name} is ripe.`;
-  },
+      return `This ${this.name} is ripe.`;
+    },
 
-  describe() {
-    return `This ${this.name} is ${this.color}.`;
-  },
-  }
+    describe() {
+      return `This ${this.name} is ${this.color}.`;
+    },
+  };
 }
 
 function createInstrument(instrument, type) {
