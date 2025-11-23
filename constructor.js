@@ -61,12 +61,41 @@ Pet.prototype.wake = function() {
   console.log('I am awake')
 }
 
-let pudding = new Pet("Cat", "Pudding")
-console.log(`I am a ${pudding.animal}. My name is ${pudding.name}.`);
-pudding.sleep(); // I am sleeping
-pudding.wake();  // I am awake
+class Cat {
+  constructor(name = 'kitty') {
+    this.name = name
+  }
 
-let neptune = new Pet("Fish", "Neptune")
-console.log(`I am a ${neptune.animal}. My name is ${neptune.name}.`);
-neptune.sleep(); // I am sleeping
-neptune.wake();  // I am awake
+  greet(name) {
+    console.log(`I am a ${this.name}`)
+  }
+
+  rename(name) {
+    this.name = name
+  }
+}
+
+class Rectangle {
+  constructor(width, length) {
+    this.width = width;
+    this.length = length
+  };
+
+  getWidth() {
+    return this.width;
+  };
+
+  getLength() {
+    return this.length;
+  };
+
+  getArea() {
+    return this.width * this.length;
+  };
+}
+
+let rect = new Rectangle(4, 5);
+
+console.log(rect.getWidth()); // 4
+console.log(rect.getLength()); // 5
+console.log(rect.getArea()); // 20
