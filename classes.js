@@ -31,151 +31,151 @@ class Square extends Rectangle {
   }
 }
 
-class Smartphone {
-  constructor(brand, model, releaseYear) {
-    this.brand = brand;
-    this.model = model;
-    this.releaseYear = releaseYear;
-  }
+// class Smartphone {
+//   constructor(brand, model, releaseYear) {
+//     this.brand = brand;
+//     this.model = model;
+//     this.releaseYear = releaseYear;
+//   }
 
-  checkBatteryLevel() {
-    return `${this.brand} ${this.model} has 75% battery remaining.`;
-  }
+//   checkBatteryLevel() {
+//     return `${this.brand} ${this.model} has 75% battery remaining.`;
+//   }
 
-  displayInfo() {
-    return `${this.releaseYear} ${this.brand} ${this.model}`;
-  }
-}
+//   displayInfo() {
+//     return `${this.releaseYear} ${this.brand} ${this.model}`;
+//   }
+// }
 
-class Vehicles {
-  constructor(color, weight) {
-    this.color = color;
-    this.weight = weight;
-  }
+// class Vehicles {
+//   constructor(color, weight) {
+//     this.color = color;
+//     this.weight = weight;
+//   }
 
-  accelerate() {
-    console.log(`The ${this.color} vehicle has accelerated`);
-  }
+//   accelerate() {
+//     console.log(`The ${this.color} vehicle has accelerated`);
+//   }
 
-  decelerate() {
-    console.log(`The ${this.color} vehicle has decelerated`);
-  }
+//   decelerate() {
+//     console.log(`The ${this.color} vehicle has decelerated`);
+//   }
 
-  info() {
-    console.log(`The ${this.color} vehicle weighs ${this.weight}`);
-  }
-}
+//   info() {
+//     console.log(`The ${this.color} vehicle weighs ${this.weight}`);
+//   }
+// }
 
-class Car extends Vehicles {
-  constructor(color, weight, plate) {
-    super(color, weight);
-    this.plate = plate;
-  }
+// class Car extends Vehicles {
+//   constructor(color, weight, plate) {
+//     super(color, weight);
+//     this.plate = plate;
+//   }
 
-  honk() {
-    console.log('Honk Honk');
-  }
+//   honk() {
+//     console.log('Honk Honk');
+//   }
 
-  info() {
-    super.info();
-    console.log(`Plate: ${this.plate}`);
-  }
-}
+//   info() {
+//     super.info();
+//     console.log(`Plate: ${this.plate}`);
+//   }
+// }
 
-class Boat extends Vehicles {
-  dropAnchor() {
-    console.log('Anchor has dropped');
-  }
+// class Boat extends Vehicles {
+//   dropAnchor() {
+//     console.log('Anchor has dropped');
+//   }
 
-  info() {
-    console.log(`The ${this.color} boat weighs ${this.weight}`);
-  }
-}
+//   info() {
+//     console.log(`The ${this.color} boat weighs ${this.weight}`);
+//   }
+// }
 
-class Plane extends Vehicles {
-  constructor(color, weight, airline) {
-    super(color, weight);
-    this.airline = airline;
-  }
+// class Plane extends Vehicles {
+//   constructor(color, weight, airline) {
+//     super(color, weight);
+//     this.airline = airline;
+//   }
 
-  info() {
-    console.log(`The ${this.color} plane weighs ${this.weight} and belongs to ${this.airline}`);
-  }
-}
+//   info() {
+//     console.log(`The ${this.color} plane weighs ${this.weight} and belongs to ${this.airline}`);
+//   }
+// }
 
-let database = {
-  getStudent(name) {
-    return 4201576;
-  }
-};
+// let database = {
+//   getStudent(name) {
+//     return 4201576;
+//   }
+// };
 
-class Student {
-  #firstName;
-  #lastName;
-  #track;
-  static counter = 0
+// class Student {
+//   #firstName;
+//   #lastName;
+//   #track;
+//   static counter = 0
 
-  static showCounter() {
-    console.log(`We have created ${Student.counter} students!`)
-  }
-  constructor(firstName, lastName, track) {
+//   static showCounter() {
+//     console.log(`We have created ${Student.counter} students!`)
+//   }
+//   constructor(firstName, lastName, track) {
 
-    this.#firstName = firstName;
-    this.#lastName = lastName;
-    this.#track = track;
-    Student.counter += 1
-  }
+//     this.#firstName = firstName;
+//     this.#lastName = lastName;
+//     this.#track = track;
+//     Student.counter += 1
+//   }
 
-  get name() {
-    return [this.firstName, this.lastName];
-  }
+//   get name() {
+//     return [this.firstName, this.lastName];
+//   }
 
-  get firstName() {
-    return this.#firstName
-  }
+//   get firstName() {
+//     return this.#firstName
+//   }
 
-  get lastName() {
-    return this.#lastName
-  }
+//   get lastName() {
+//     return this.#lastName
+//   }
 
-  get track() {
-    return this.#track
-  }
+//   get track() {
+//     return this.#track
+//   }
 
-  set track(newTrack) {
-    switch (newTrack) {
-      case 'javaScript':
-      case 'Python':
-      case 'Ruby':
-        this.#track = newTrack
-        break;
-      default:
-        throw new Error(`Invalid track: ${newTrack}`)
-    }
-  }
-}
+//   set track(newTrack) {
+//     switch (newTrack) {
+//       case 'javaScript':
+//       case 'Python':
+//       case 'Ruby':
+//         this.#track = newTrack
+//         break;
+//       default:
+//         throw new Error(`Invalid track: ${newTrack}`)
+//     }
+//   }
+// }
 
-class Person {
-  #name;
-  #age;
+// class Person {
+//   #name;
+//   #age;
 
-  constructor(name, age) {
-    this.#name = name;
-    this.age = age; // Call the setter to validate data
-  }
+//   constructor(name, age) {
+//     this.#name = name;
+//     this.age = age; // Call the setter to validate data
+//   }
 
-  set age(age) {
-    if (typeof(age) === 'number' && age > 0) {
-      this.#age = age;
-    } else {
-      throw new RangeError('Age must be positive');
-    }
-  }
+//   set age(age) {
+//     if (typeof(age) === 'number' && age > 0) {
+//       this.#age = age;
+//     } else {
+//       throw new RangeError('Age must be positive');
+//     }
+//   }
 
-  showAge() {
-    console.log(this.#age);
-  }
-}
+//   showAge() {
+//     console.log(this.#age);
+//   }
+// }
 
 class Book {
   #title;
@@ -230,64 +230,64 @@ class BankAccount {
   }
 }
 
-class Rectangle {
-  #width;
-  #height;
+// class Rectangle {
+//   #width;
+//   #height;
 
-  constructor(width, height) {
-    this.#height = height;
-    this.#width = width;
-  }
+//   constructor(width, height) {
+//     this.#height = height;
+//     this.#width = width;
+//   }
 
-  get width() {
-    return this.#width
-  }
+//   get width() {
+//     return this.#width
+//   }
 
-  get height() {
-    return this.#height
-  }
+//   get height() {
+//     return this.#height
+//   }
 
-  get area() {
-    return this.#height * this.#width;
-  }
+//   get area() {
+//     return this.#height * this.#width;
+//   }
 
-  set width(n) {
-    if (typeof(n) === 'number' && n > 0) {
-      this.#width = n
-    } else {
-      throw new RangeError('width must be positive')
-    }
-  }
+//   set width(n) {
+//     if (typeof(n) === 'number' && n > 0) {
+//       this.#width = n
+//     } else {
+//       throw new RangeError('width must be positive')
+//     }
+//   }
 
-  set height(n) {
-    if (typeof(n) === 'number' && n > 0) {
-      this.#height = n
-    } else {
-      throw new RangeError('height must be positive')
-    }
-  }
-}
+//   set height(n) {
+//     if (typeof(n) === 'number' && n > 0) {
+//       this.#height = n
+//     } else {
+//       throw new RangeError('height must be positive')
+//     }
+//   }
+// }
 
-class MathUtils {
-  static add(n1, n2) {
-    return n1 + n2
-  }
+// class MathUtils {
+//   static add(n1, n2) {
+//     return n1 + n2
+//   }
 
-  static subtract(n1, n2) {
-    return n1 - n2
-  }
+//   static subtract(n1, n2) {
+//     return n1 - n2
+//   }
 
-  static multiply(n1, n2) {
-    return n1 * n2
-  }
+//   static multiply(n1, n2) {
+//     return n1 * n2
+//   }
 
-  static divide(n1, n2) {
-    if (n2 === 0) {
-      throw new RangeError('Division by zero');
-    }
-    return n1 / n2;
-  }
-}
+//   static divide(n1, n2) {
+//     if (n2 === 0) {
+//       throw new RangeError('Division by zero');
+//     }
+//     return n1 / n2;
+//   }
+// }
 
 function Smartphone(brand, model, year) {
   this.brand = brand;
@@ -383,3 +383,73 @@ citation.takeOff();
 citation.land()
 citation.info()
 
+function Person(firstName, lastName, age, gender) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.age = age;
+  this.gender = gender;
+}
+
+Person.prototype.fullName = function() {
+  return `${this.firstName} ${this.lastName}`
+}
+
+Person.prototype.communicate = function() {
+  console.log(`Communicating`)
+}
+
+Person.prototype.eat = function() {
+  console.log(`Eating`)
+}
+
+Person.prototype.sleep = function() {
+  console.log(`Sleeping`)
+}
+
+function Doctor(firstName, lastName, age, gender, specialization,) {
+  Person.call(this, firstName, lastName, age, gender)
+  this.specialization = specialization;
+}
+
+Doctor.prototype = Object.create(Person.prototype)
+Doctor.prototype.constructor = Doctor;
+
+Doctor.prototype.diagnose = function() {
+  console.log('Diagnosing')
+}
+
+function Student(firstName, lastName, age, gender, degree) {
+  Person.call(this, firstName, lastName, age, gender);
+  this.degree = degree;
+}
+
+Student.prototype = Object.create(Person.prototype)
+Student.prototype.constructor = Student;
+
+Student.prototype.study = function() {
+  console.log('Studying')
+}
+
+function Professor(firstName, lastName, age, gender, subject) {
+  Person.call(this, firstName, lastName, age, gender);
+  this.subject = subject;
+}
+
+Professor.prototype = Object.create(Person.prototype);
+Professor.prototype.constructor = Professor;
+
+Professor.prototype.teach = function() {
+  console.log('Teaching')
+}
+
+function GraduateStudent(firstName, lastName, age, gender, degree, graduateDegree) {
+  Student.call(this, firstName, lastName, age, gender, degree);
+  this.graduateDegree = graduateDegree;
+}
+
+GraduateStudent.prototype = Object.create(Student.prototype)
+GraduateStudent.prototype.constructor = GraduateStudent;
+
+GraduateStudent.prototype.research = function() {
+  console.log('Resaerching');
+}
