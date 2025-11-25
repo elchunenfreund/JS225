@@ -229,5 +229,17 @@ class Banner {
   }
 }
 
-let banner1 = new Banner('To boldly go where no one has gone before.');
-banner1.displayBanner();
+function newPerson(name) {
+  return Object.defineProperties({ name: name }, {
+    log: {
+      value() {
+        console.log(this.name);
+      },
+      writable: false
+    },
+  });
+}
+
+console.log(module);
+console.log(exports);
+console.log(require);
