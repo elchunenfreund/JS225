@@ -1,113 +1,30 @@
-/* eslint-disable max-lines-per-function */
-/* eslint-disable max-len */
-let ItemManager = (function() {
-  let items = []; // Private collection
+function Book(title, author) {
+  this.title = title;
+  this.author = author;
+}
 
-  function findItemBySku(skuCode) {
-    return items.find((item) => item.skuCode === skuCode);
-  }
+Book.prototype.describe = function() {
+  return `${this.title} was written by ${this.author}`;
+};
 
-  function findItemIndexBySku(skuCode) {
-    return items.findIndex((item) => item.skuCode === skuCode);
-  }
+function Magazine(title, author, issueNumber) {
+  Book.call(this, title, author);
+  this.issueNumber = issueNumber;
+};
 
-  return {
-    create: function(itemName, category, quantity) {
-      const validItemName = itemName.replace(/\s/g, '').length >= 5;
-      const validCategory = category.length >= 5 && !/\s/.test(category);
-      const validQuantity = typeof quantity === 'number' && quantity >= 0;
+Magazine.prototype = Object.create(Book.prototype);
+Magazine.prototype.constructor = Magazine;
 
-      if (!validItemName || !validCategory || !validQuantity) {
-        return false;
-      }
+Magazine.prototype.read = function() {
+  console.log(`Reading issue ${this.issueNumber} of ${this.title}`);
+};
 
-      const skuCode = (itemName.replace(/\s/g, '').slice(0, 3) + category.slice(0, 2)).toUpperCase();
-      let existingItem = findItemBySku(skuCode);
-      if (existingItem) {
-        existingItem.quantity += quantity;
-      } else {
-        items.push({
-          skuCode,
-          itemName,
-          category,
-          quantity,
-        });
-      }
-      return true;
-    },
+let book = new Book("The Hobbit", "J.R.R. Tolkien");
+console.log(book.describe()); // "The Hobbit" was written by J.R.R. Tolkien.
 
-    update: function(skuCode, itemInformation) {
-      let item = findItemBySku(skuCode);
-      if (item) {
-        Object.assign(item, itemInformation);
-      }
-    },
+let magazine = new Magazine("National Geographic", "Various", 123);
+console.log(magazine.describe()); // "National Geographic" was written by Various.
+magazine.read();                // Reading issue #123 of "National Geographic".
 
-    delete: function(skuCode) {
-      let index = findItemIndexBySku(skuCode);
-      if (index !== -1) {
-        items.splice(index, 1);
-      }
-    },
-
-    items() {
-      return items.slice();
-    },
-
-    inStock() {
-      return items.filter((item) => item.quantity > 0);
-    },
-
-    itemsInCategory(category) {
-      return items.filter((item) => item.category === category);
-    },
-  };
-})();
-
-ItemManager.create('basket ball', 'sports', 0);           // valid item
-ItemManager.create('soccer ball', 'sports', 5);           // valid item
-ItemManager.create('football', 'sports', 3);              // valid item
-ItemManager.create('kitchen pot', 'cooking', 5);          // valid item
-ItemManager.create('bad item', 'sports', 0);              // invalid item name
-ItemManager.create('soccer ball', 'sports', 10);          // updates quantity of existing item
-console.log(ItemManager.items());
-// logs:
-// [
-//   { skuCode: 'BASSP', itemName: 'basket ball', category: 'sports', quantity: 0 },
-//   { skuCode: 'SOCSP', itemName: 'soccer ball', category: 'sports', quantity: 15 },
-//   { skuCode: 'FOOSP', itemName: 'football', category: 'sports', quantity: 3 },
-//   { skuCode: 'KITCO', itemName: 'kitchen pot', category: 'cooking', quantity: 5 },
-// ]
-
-ItemManager.delete('SOCSP');
-console.log(ItemManager.items());
-// logs:
-// [
-//   { skuCode: 'BASSP', itemName: 'basket ball', category: 'sports', quantity: 0 },
-//   { skuCode: 'FOOSP', itemName: 'football', category: 'sports', quantity: 3 },
-//   { skuCode: 'KITCO', itemName: 'kitchen pot', category: 'cooking', quantity: 5 },
-// ]
-
-let kitchenPot = ItemManager.items().filter(item => item.skuCode === 'KITCO')[0];
-ItemManager.update('KITCO', { quantity: 10 });
-console.log(ItemManager.items());
-// logs:
-// [
-//   { skuCode: 'BASSP', itemName: 'basket ball', category: 'sports', quantity: 0 },
-//   { skuCode: 'FOOSP', itemName: 'football', category: 'sports', quantity: 3 },
-//   { skuCode: 'KITCO', itemName: 'kitchen pot', category: 'cooking', quantity: 10 },
-// ]
-
-console.log(ItemManager.inStock());
-// logs:
-// [
-//   { skuCode: 'FOOSP', itemName: 'football', category: 'sports', quantity: 3 },
-//   { skuCode: 'KITCO', itemName: 'kitchen pot', category: 'cooking', quantity: 10 },
-// ]
-
-console.log(ItemManager.itemsInCategory('sports'));
-// logs:
-// [
-//   { skuCode: 'BASSP', itemName: 'basket ball', category: 'sports', quantity: 0 },
-//   { skuCode: 'FOOSP', itemName: 'football', category: 'sports', quantity: 3 },
-// ]
+console.log(magazine instanceof Book);      // true
+console.log(magazine instanceof Magazine);  // true
