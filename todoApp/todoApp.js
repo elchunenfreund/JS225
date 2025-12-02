@@ -1,62 +1,15 @@
 class Todo {
-  #id;
-  #title;
-  #completed;
-  #month;
-  #year;
-  #description;
-
-  #validateTitle(value) {
-    if (typeof value !== 'string' || value.trim().length === 0) {
-      throw new Error("Title must be a non-empty string.");
-    }
-  }
-
-  #validateDescription(value) {
-    if (typeof value !== 'string' || value.trim().length === 0) {
-      throw new Error("Description must be a non-empty string.");
-    }
-  }
-
-  #validateOptionalString(value, fieldName) {
-    if (typeof value !== 'string') {
-      throw new Error(`${fieldName} must be a string (can be empty).`);
-    }
-  }
-
   constructor(id, passedObj) {
-    this.#validateTitle(passedObj.title);
-    this.#validateDescription(passedObj.description);
-    this.#validateOptionalString(passedObj.month, 'Month');
-    this.#validateOptionalString(passedObj.year, 'Year');
-    
-    this.#id = id;
-    this.#title = passedObj.title.trim();
-    this.#completed = false;
-    this.#month = passedObj.month;
-    this.#year = passedObj.year;
-    this.#description = passedObj.description.trim();
+    this.id = id;
+    this.title = passedObj.title;
+    this.completed = false;
+    this.month = passedObj.month;
+    this.year = passedObj.year;
+    this.description = passedObj.description;
   }
 
-  get id() { return this.#id };
-  get title() { return this.#title };
-  get completed() { return this.#completed };
-  get month() { return this.#month };
-  get year() { return this.#year };
-  get description() { return this.#description };
-  get isCompleted() { return this.#completed };
-
-  markDone() { this.#completed = true }
-  markUndone() { this.#completed = false }
-
-  changeDescription(newDescription) {
-    this.#validateDescription(newDescription);
-    this.#description = newDescription.trim();
-  }
-
-  setTitle(newTitle) {
-    this.#validateTitle(newTitle);
-    this.#title = newTitle.trim();
+  isWithinMonthYear(month, year) {
+    return (this.month === month) && (this.year === year);
   }
 }
 
@@ -76,8 +29,32 @@ class TodoList {
     todoSet.forEach(todoData => this.addTodo(todoData));
   }
 
+  #validateString(value, fieldName) {
+    if (typeof value !== 'string' || value.trim().length === 0) {
+      throw new Error(`${fieldName} must be a non-empty string.`);
+    }
+  }
+
+  #validateOptionalString(value, fieldName) {
+    if (typeof value !== 'string') {
+      throw new Error(`${fieldName} must be a string (can be empty).`);
+    }
+  }
+
   addTodo(passedObj) {
-    let todo = new Todo(this.#generateId(), passedObj); 
+    this.#validateString(passedObj.title, 'Title');
+    this.#validateString(passedObj.description, 'Description');
+    this.#validateOptionalString(passedObj.month, 'Month');
+    this.#validateOptionalString(passedObj.year, 'Year');
+
+    let cleanObj = {
+        title: passedObj.title.trim(),
+        description: passedObj.description.trim(),
+        month: passedObj.month,
+        year: passedObj.year
+    };
+
+    let todo = new Todo(this.#generateId(), cleanObj); 
     this.#todoList.push(todo);
   }
 
@@ -104,25 +81,27 @@ class TodoList {
   updateTitle(id, newTitle) {
     let todo = this.#getTodoReference(id);
     if (todo) {
-      todo.setTitle(newTitle); 
+      this.#validateString(newTitle, 'Title');
+      todo.title = newTitle.trim(); 
     }
   }
   
   updateDescription(id, newDescription) {
     let todo = this.#getTodoReference(id);
     if (todo) {
-      todo.changeDescription(newDescription); 
+      this.#validateString(newDescription, 'Description');
+      todo.description = newDescription.trim(); 
     }
   }
 
   markDone(id) {
     let todo = this.#getTodoReference(id);
-    if (todo) { todo.markDone() }
+    if (todo) { todo.completed = true; }
   }
   
   markUndone(id) {
     let todo = this.#getTodoReference(id);
-    if (todo) { todo.markUndone() }
+    if (todo) { todo.completed = false; }
   }
 
   deleteTodo(id) {
@@ -134,11 +113,23 @@ class TodoList {
   }
 
   markAllDone() {
-    this.#todoList.forEach(todo => todo.markDone());
+    this.#todoList.forEach(todo => todo.completed = true);
   }
 
   markAllUndone() {
-    this.#todoList.forEach(todo => todo.markUndone());
+    this.#todoList.forEach(todo => todo.completed = false);
+  }
+
+  todosWithinMonthYear(month, year) {
+    return this.#todoList
+      .filter(todo => todo.isWithinMonthYear(month, year))
+      .map(todo => this.#copyTodo(todo));
+  }
+
+  completedTodos() {
+    return this.#todoList
+      .filter(todo => todo.completed)
+      .map(todo => this.#copyTodo(todo));
   }
 }
 
@@ -157,11 +148,11 @@ class TodoManager {
   }
 
   allCompletedTodos() {
-    return this.allTodos().filter(todo => todo.completed);
+    return this.#todoList.completedTodos();
   }
 
   allTodosWithinMonthYear(month, year) {
-    return this.allTodos().filter(todo => (todo.month === month) && (todo.year === year));
+    return this.#todoList.todosWithinMonthYear(month, year);
   }
 
   completedTodosWithinMonthYear(month, year) {
@@ -198,9 +189,9 @@ let invalidData2 = { title: 'Valid Title', month: '1', year: '2025', description
 let invalidData3 = { title: 'Valid Title', month: '1', year: 2025, description: 'desc' };
 let creationErrors = 0;
 
-try { todoList.addTodo(invalidData1); } catch (e) { }
-try { todoList.addTodo(invalidData2); } catch (e) { }
-try { todoList.addTodo(invalidData3); } catch (e) { }
+try { todoList.addTodo(invalidData1); } catch (e) { console.log(`Error raised as expected ${e}`) }
+try { todoList.addTodo(invalidData2); } catch (e) { console.log(`Error raised as expected ${e}`) }
+try { todoList.addTodo(invalidData3); } catch (e) { console.log(`Error raised as expected ${e}`) }
 
 // Expecting 0
 test(todoList.allTodos().length === initialListLength);
@@ -213,14 +204,14 @@ const originalTitle = todoList.findTodoById(targetId).title;
 // Update with empty string
 try {
     todoList.updateTitle(targetId, ' ');
-} catch (e) { }
+} catch (e) { console.log(`Error raised as expected ${e}`)}
 let todoAfterInvalidUpdate1 = todoList.findTodoById(targetId);
 test(todoAfterInvalidUpdate1.title === originalTitle);
 
 // Update with other type
 try {
     todoList.updateTitle(targetId, 999);
-} catch (e) { }
+} catch (e) { console.log(`Error raised as expected ${e}`) }
 let todoAfterInvalidUpdate2 = todoList.findTodoById(targetId);
 test(todoAfterInvalidUpdate2.title === originalTitle);
 
@@ -229,8 +220,22 @@ const newValidTitle = "New Valid Title";
 try {
     todoList.updateTitle(targetId, newValidTitle);
     todoList.updateTitle(targetId, originalTitle);
-} catch (e) { }
+} catch (e) { console.log(`We were not expecting this error. ${e}`)}
 test(todoList.findTodoById(targetId).title === originalTitle)
+
+const descId = todoList.allTodos()[0].id;
+const originalDesc = todoList.findTodoById(descId).description;
+
+try {
+    todoList.updateDescription(descId, ' ');
+} catch (e) { console.log(`Error raised as expected ${e}`) }
+test(todoList.findTodoById(descId).description === originalDesc);
+
+const newDesc = "Updated Description Text";
+try {
+    todoList.updateDescription(descId, newDesc);
+} catch (e) { console.log(`Unexpected error: ${e}`) }
+test(todoList.findTodoById(descId).description === newDesc);
 
 let initialTodoSet2 = [
     { title: 'Buy Milk', month: '1', year: '2017', description: 'Milk for baby' }, 
@@ -272,6 +277,10 @@ test(todoManager2.allCompletedTodos().length === 0);
 // Filter by date.
 const janTodos = todoManager2.allTodosWithinMonthYear('1', '');
 test(janTodos.length === 1 && janTodos[0].title === 'Buy Chocolate');
+
+// Empty dates
+const emptyDateTodos = todoManager2.allTodosWithinMonthYear('', '');
+test(emptyDateTodos.length === 1 && emptyDateTodos[0].title === 'Buy Veggies');
 
 // Completed and Date Filtering
 todoList2.markDone(1);
